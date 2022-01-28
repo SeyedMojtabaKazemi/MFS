@@ -1,4 +1,4 @@
-﻿using MFS.Application.Interfaces;
+﻿using MFS.Contract;
 using MFS.Domain.Common;
 using MFS.Domain.MerchantAggregate;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +14,11 @@ namespace MFS.Infrastructure.Persistence
 {
     public class MFSContext : DbContext, IMFSContext
     {
+        public MFSContext(DbContextOptions<MFSContext> contextOptions) : base(contextOptions)
+        {
+
+        }
+
         public DbSet<Merchant> Merchants { get; set; }
 
 

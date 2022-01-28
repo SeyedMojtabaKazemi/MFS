@@ -3,15 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32106.194
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MFS.Domain", "MFS.Domain\MFS.Domain.csproj", "{6825178E-3DE5-4A1E-ADC8-42D30DB4D381}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MFS.Domain", "MFS.Domain\MFS.Domain.csproj", "{6825178E-3DE5-4A1E-ADC8-42D30DB4D381}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MFS.Infrastructure", "MFS.Infrastructure\MFS.Infrastructure.csproj", "{C4D1F802-5C7A-48E1-8F48-3CDA1D0F62E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MFS.Infrastructure", "MFS.Infrastructure\MFS.Infrastructure.csproj", "{C4D1F802-5C7A-48E1-8F48-3CDA1D0F62E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MFS.Application", "MFS.Application\MFS.Application.csproj", "{CEB913A1-2E9F-4FCB-A655-2695F969717C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MFS.Application", "MFS.Application\MFS.Application.csproj", "{CEB913A1-2E9F-4FCB-A655-2695F969717C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MFS.Endpoint.WebAPI", "MFS.Endpoint.WebAPI\MFS.Endpoint.WebAPI.csproj", "{DFDA1B68-2551-46F9-8766-367DCA3C3AE7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MFS.Endpoint.WebAPI", "MFS.Endpoint.WebAPI\MFS.Endpoint.WebAPI.csproj", "{DFDA1B68-2551-46F9-8766-367DCA3C3AE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MFS.xUnitTest", "MFS.xUnitTest\MFS.xUnitTest.csproj", "{8A8E649E-01EF-4A83-804C-1A0CFE356677}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MFS.xUnitTest", "MFS.xUnitTest\MFS.xUnitTest.csproj", "{8A8E649E-01EF-4A83-804C-1A0CFE356677}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MFS.Contract", "MFS.Contract\MFS.Contract.csproj", "{00DD8ECE-4257-4DCA-8AAB-22A60E2E2278}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{8A8E649E-01EF-4A83-804C-1A0CFE356677}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A8E649E-01EF-4A83-804C-1A0CFE356677}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A8E649E-01EF-4A83-804C-1A0CFE356677}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00DD8ECE-4257-4DCA-8AAB-22A60E2E2278}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00DD8ECE-4257-4DCA-8AAB-22A60E2E2278}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00DD8ECE-4257-4DCA-8AAB-22A60E2E2278}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00DD8ECE-4257-4DCA-8AAB-22A60E2E2278}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

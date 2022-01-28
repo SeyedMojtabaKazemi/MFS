@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MFS.Application.Interfaces
+namespace MFS.Contract
 {
     public interface IMFSContext
     {

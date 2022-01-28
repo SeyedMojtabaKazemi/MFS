@@ -52,14 +52,6 @@ namespace MFS.Endpoint.WebAPI.Extensions
                     exception.StackTrace
                 ));
             }
-            //else if (exception is DbUpdateException && exception.InnerException.Message.Contains("DELETE statement conflicted"))
-            //{
-            //    result = JsonSerializer.Serialize(new ErrorDetails(
-            //        context.Response.StatusCode,
-            //        "DELETE statement conflicted!",
-            //        exception.StackTrace
-            //    ));
-            //}
             else
             {
                 result = JsonSerializer.Serialize(new ErrorDetails(

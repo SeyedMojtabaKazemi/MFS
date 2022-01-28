@@ -1,5 +1,4 @@
-﻿using MFS.Application.Interfaces;
-using MFS.Application.Interfaces.Common;
+﻿using MFS.Contract;
 using MFS.Domain.Common;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -13,13 +12,11 @@ namespace MFS.Infrastructure.Persistence
 {
     public class Repository<T> : IRepository<T> where T : BaseEntity
     {
-        private readonly IUnitOfWork _unitOfWork;
         private readonly MFSContext _context;
         private readonly DbSet<T> Entity;
 
-        public Repository(MFSContext context, IUnitOfWork unitOfWork)
+        public Repository(MFSContext context)
         {
-            _unitOfWork = unitOfWork;
             _context = context;
             Entity = _context.Set<T>();
         }
@@ -34,24 +31,30 @@ namespace MFS.Infrastructure.Persistence
             return Entity.Where(expression).ToList();
         }
 
-        public int Insert(T entity)
+        public IEnumerable<T> GetExpression(Expression<Func<T, bool>> expression, string IncludeClassName)
+        {
+            return Entity.Include(IncludeClassName).Where(expression).ToList();
+        }
+
+        public IEnumerable<T> GetExpression(Expression<Func<T, bool>> expression, string IncludeClassName1, string IncludeClassName2)
+        {
+            return Entity.Include(IncludeClassName1).Include(IncludeClassName2).Where(expression).ToList();
+        }
+
+        public void Insert(T entity)
         {
             Entity.Add(entity);
-            _unitOfWork.SaveChange();
-            return entity.Id;
         }
 
         public void Remove(T entity)
         {
             entity.IsDeleted = true;
             Entity.Update(entity);
-            _unitOfWork.SaveChange();
         }
 
         public void Update(T entity)
         {
             Entity.Update(entity);
-            _unitOfWork.SaveChange();
         }
     }
 }

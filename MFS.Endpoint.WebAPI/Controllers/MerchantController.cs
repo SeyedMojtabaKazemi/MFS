@@ -1,37 +1,71 @@
-﻿using MFS.Application.Interfaces.Common;
+﻿using MFS.Application.Services.Commands.MerchantAggregate;
+using MFS.Application.Services.Queries;
+using MFS.Contract;
+using MFS.Contract.MerchantAggregate;
 using MFS.Domain.Common;
 using MFS.Domain.MerchantAggregate;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MFS.Endpoint.WebAPI.Controllers
 {
     [ApiController]
     public class MerchantController : ControllerBase
     {
-        private readonly IRepository<Merchant> _MerchantRepository;
+        private readonly IMerchantServiceCommand _merchantServiceCommand;
+        private readonly IMerchantServiceQuery _merchantServiceQuery;
 
-        public MerchantController(IRepository<Merchant> MerchantRepository)
+        public MerchantController(IMerchantServiceCommand merchantServiceCommand,
+                                  IMerchantServiceQuery merchantServiceQuery)
         {
-            _MerchantRepository = MerchantRepository;
+            _merchantServiceCommand = merchantServiceCommand;
+            _merchantServiceQuery = merchantServiceQuery;
         }
 
-        public MessageDto CreateMerchant([FromBody]MerchantCommand merchant)
+        [HttpPost]
+        [Route("api/CreateMerchant")]
+        public IActionResult CreateMerchant(MerchantCreateDto merchant)
         {
-            var MerchatnInfo = Merchant.Create(merchant);
+            var id = _merchantServiceCommand.CreateMerchant(merchant);
 
-            var id = _MerchantRepository.Insert(MerchatnInfo);
-
-            return new MessageDto
+            return Ok(new MessageDto
             {
-                HasError=false,
-                Message ="Merchant Added Successfully",
+                HasError = false,
+                Message = "Merchant Added Successfully",
                 result = id.ToString()
-            };
+            });
         }
+
+        [HttpPatch]
+        [Route("api/UpdateMerchant")]
+        public IActionResult UpdateMerchant(MerchantDto merchant)
+        {
+            _merchantServiceCommand.UpdateMerchant(merchant);
+
+            return Ok(new MessageDto
+            {
+                HasError = false,
+                Message = "Merchant Updated Successfully"
+            });
+        }
+
+        [HttpGet]
+        [Route("api/RemoveMerchant/{merchantId}")]
+        public IActionResult RemoveMerchant(int merchantId)
+        {
+            _merchantServiceCommand.RemoveMerchant(merchantId);
+
+            return Ok(new MessageDto
+            {
+                HasError = false,
+                Message = "Merchant Removed Successfully"
+            });
+        }
+
+        [HttpPost]
+        [Route("api/GetMerchantList")]
+        public IActionResult GetMerchantList(MerchantDto merchant) =>
+            Ok(_merchantServiceQuery.GetMerchantList(merchant));
+
     }
 }

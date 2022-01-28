@@ -6,13 +6,15 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MFS.Application.Interfaces.Common
+namespace MFS.Contract
 {
     public interface IRepository<T> where T : BaseEntity
     {
         IEnumerable<T> GetAll();
         IEnumerable<T> GetExpression(Expression<Func<T, bool>> expression);
-        int Insert(T entity);
+        IEnumerable<T> GetExpression(Expression<Func<T, bool>> expression, string IncludeClassName);
+        IEnumerable<T> GetExpression(Expression<Func<T, bool>> expression, string IncludeClassName1, string IncludeClassName2);
+        void Insert(T entity);
         void Update(T entity);
         void Remove(T entity);
     }

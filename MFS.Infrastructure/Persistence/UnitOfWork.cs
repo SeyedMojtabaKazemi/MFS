@@ -1,4 +1,4 @@
-﻿using MFS.Application.Interfaces;
+﻿using MFS.Contract;
 using System;
 using System.Collections.Generic;
 using System.Linq;

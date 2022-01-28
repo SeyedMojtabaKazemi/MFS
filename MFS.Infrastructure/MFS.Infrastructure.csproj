@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MFS.Application\MFS.Application.csproj" />
+    <ProjectReference Include="..\MFS.Contract\MFS.Contract.csproj" />
   </ItemGroup>
 
 </Project>

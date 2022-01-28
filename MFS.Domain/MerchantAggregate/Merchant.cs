@@ -13,32 +13,35 @@ namespace MFS.Domain.MerchantAggregate
         public string LastName { get; set; }
         public string Email { get; set; }
         public string PhoneNo { get; set; }
+        public string NationalCode { get; set; }
+        public MerchantDiscount MerchantDiscount { get; set; }
 
 
-
-        public static Merchant Create(MerchantCommand merchant) => new()
+        public static Merchant Create(MerchantCreateDto merchant) => new()
         {
-            Id = merchant.Id,
             FirstName = merchant.FirstName,
             LastName = merchant.LastName,
             Email = merchant.Email,
             PhoneNo = merchant.PhoneNo,
-            CreateDate = merchant.CreateDate,
-            IsDeleted = false
+            NationalCode = merchant.NationalCode,
+            IsDeleted = false,
+            MerchantDiscount = new MerchantDiscount
+            {
+                DiscountPercent = merchant.MerchantDiscount
+            }
         };
 
 
-        public static Merchant Update(MerchantCommand merchant) => new()
+        public Merchant Update(MerchantDto merchant)
         {
-            Id = merchant.Id,
-            FirstName = merchant.FirstName,
-            LastName = merchant.LastName,
-            Email = merchant.Email,
-            PhoneNo = merchant.PhoneNo,
-            CreateDate = merchant.CreateDate,
-            ModifyDate = merchant.ModifyDate,
-            IsDeleted = merchant.IsDeleted
-        };
+            FirstName = merchant.FirstName;
+            LastName = merchant.LastName;
+            Email = merchant.Email;
+            PhoneNo = merchant.PhoneNo;
+            NationalCode = merchant.NationalCode;
+            MerchantDiscount.DiscountPercent = merchant.MerchantDiscount;
 
+            return this;
+        }
     }
 }

@@ -34,6 +34,13 @@ namespace MFS.Infrastructure.Configuration
                 .Property(q => q.PhoneNo)
                 .HasMaxLength(20)
                 .IsRequired();
+
+            builder
+                .Property(q => q.NationalCode)
+                .HasMaxLength(10)
+                .IsRequired();
+
+
         }
     }
 }

@@ -9,7 +9,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MFS.Contract\MFS.Contract.csproj" />
     <ProjectReference Include="..\MFS.Domain\MFS.Domain.csproj" />
   </ItemGroup>
 

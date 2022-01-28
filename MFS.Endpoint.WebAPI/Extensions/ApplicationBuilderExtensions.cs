@@ -1,12 +1,10 @@
-﻿using MFS.Infrastructure.Persistence;
+﻿using MFS.Application.Services.Commands.MerchantAggregate;
+using MFS.Contract;
+using MFS.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Scrutor;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Reflection;
 
 namespace MFS.Endpoint.WebAPI.Extensions
 {
@@ -19,22 +17,24 @@ namespace MFS.Endpoint.WebAPI.Extensions
 
         public static void AddServiceRegistry(this IServiceCollection services)
         {
-            services.Scan(scan => scan
-                    .FromCallingAssembly() // 1. Find the concrete classes
-                    .AddClasses()        //    to register
-                    .UsingRegistrationStrategy(RegistrationStrategy.Skip) // 2. Define how to handle duplicates
-                    .AsImplementedInterfaces()    // 2. Specify which services they are registered as implemented interfaces
-                    .WithScopedLifetime());// 3. Set the lifetime for the services
-        }
 
-        public static async Task EnsureDb(this IServiceProvider service)
-        {
-            using var db = service.CreateScope().ServiceProvider.GetRequiredService<MFSContext>();
-            if (db.Database.IsRelational())
+            var allContractLayerInterfaces = Assembly.GetAssembly(typeof(IMFSContext))
+                                                            .GetTypes().Where(t => t.Namespace != null).ToList();
+
+            var allInfrastructureLayerClasses = Assembly.GetAssembly(typeof(MFSContext))
+                                                            .GetTypes().Where(t => t.Namespace != null).ToList();
+
+            var allApplicationLayerClasses = Assembly.GetAssembly(typeof(MerchantServiceCommand))
+                                                            .GetTypes().Where(t => t.Namespace != null).ToList();
+
+            var allProviderClasses = allInfrastructureLayerClasses.Concat(allApplicationLayerClasses).ToList();
+
+            foreach (var intfc in allContractLayerInterfaces.Where(t => t.IsInterface))
             {
-                await db.Database.MigrateAsync();
+                var impl = allProviderClasses.FirstOrDefault(c => c.IsClass && intfc.Name.Substring(1) == c.Name);
+                if (impl != null)
+                    services.AddScoped(intfc, impl);
             }
-            //await db.Database.EnsureCreatedAsync();
         }
     }
 }
