@@ -1,7 +1,9 @@
 ﻿using MFS.Application.Services.Commands.MerchantAggregate;
 using MFS.Application.Services.Queries;
 using MFS.Contract;
+using MFS.Contract.CommssionAggregate;
 using MFS.Contract.MerchantAggregate;
+using MFS.Domain.CommissionAggregate;
 using MFS.Domain.Common;
 using MFS.Domain.MerchantAggregate;
 using Microsoft.AspNetCore.Http;
@@ -14,12 +16,15 @@ namespace MFS.Endpoint.WebAPI.Controllers
     {
         private readonly IMerchantServiceCommand _merchantServiceCommand;
         private readonly IMerchantServiceQuery _merchantServiceQuery;
+        private readonly ICommissionServiceCommand _commissionServiceCommand;
 
         public MerchantController(IMerchantServiceCommand merchantServiceCommand,
-                                  IMerchantServiceQuery merchantServiceQuery)
+                                  IMerchantServiceQuery merchantServiceQuery,
+                                  ICommissionServiceCommand commissionServiceCommand)
         {
             _merchantServiceCommand = merchantServiceCommand;
             _merchantServiceQuery = merchantServiceQuery;
+            _commissionServiceCommand = commissionServiceCommand;
         }
 
         [HttpPost]
@@ -66,6 +71,20 @@ namespace MFS.Endpoint.WebAPI.Controllers
         [Route("api/GetMerchantList")]
         public IActionResult GetMerchantList(MerchantDto merchant) =>
             Ok(_merchantServiceQuery.GetMerchantList(merchant));
+
+
+        [HttpPost]
+        [Route("api/CalcCommission")]
+        public IActionResult CalculateMerchantCommission(CommissionDto commission)
+        {
+            _commissionServiceCommand.SubmitMerchantCommission(commission);
+
+            return Ok(new MessageDto
+            {
+                HasError = false,
+                Message = "Commission Calculated sucessfully"
+            });
+        }
 
     }
 }

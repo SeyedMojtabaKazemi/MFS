@@ -14,27 +14,5 @@ namespace MFS.Endpoint.WebAPI.Extensions
         {
             app.UseMiddleware<ExceptionMiddleware>();
         }
-
-        public static void AddServiceRegistry(this IServiceCollection services)
-        {
-
-            var allContractLayerInterfaces = Assembly.GetAssembly(typeof(IMFSContext))
-                                                            .GetTypes().Where(t => t.Namespace != null).ToList();
-
-            var allInfrastructureLayerClasses = Assembly.GetAssembly(typeof(MFSContext))
-                                                            .GetTypes().Where(t => t.Namespace != null).ToList();
-
-            var allApplicationLayerClasses = Assembly.GetAssembly(typeof(MerchantServiceCommand))
-                                                            .GetTypes().Where(t => t.Namespace != null).ToList();
-
-            var allProviderClasses = allInfrastructureLayerClasses.Concat(allApplicationLayerClasses).ToList();
-
-            foreach (var intfc in allContractLayerInterfaces.Where(t => t.IsInterface))
-            {
-                var impl = allProviderClasses.FirstOrDefault(c => c.IsClass && intfc.Name.Substring(1) == c.Name);
-                if (impl != null)
-                    services.AddScoped(intfc, impl);
-            }
-        }
     }
 }

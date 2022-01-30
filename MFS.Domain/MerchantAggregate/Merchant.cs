@@ -1,4 +1,6 @@
-﻿using MFS.Domain.Common;
+﻿using MFS.Domain.CommissionAggregate;
+using MFS.Domain.Common;
+using MFS.Domain.TransactionAggregate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +17,8 @@ namespace MFS.Domain.MerchantAggregate
         public string PhoneNo { get; set; }
         public string NationalCode { get; set; }
         public MerchantDiscount MerchantDiscount { get; set; }
+        public List<Transaction> Transactions { get; set; }
+        public List<Commission> Commissions { get; set; }
 
 
         public static Merchant Create(MerchantCreateDto merchant) => new()
@@ -24,7 +28,6 @@ namespace MFS.Domain.MerchantAggregate
             Email = merchant.Email,
             PhoneNo = merchant.PhoneNo,
             NationalCode = merchant.NationalCode,
-            IsDeleted = false,
             MerchantDiscount = new MerchantDiscount
             {
                 DiscountPercent = merchant.MerchantDiscount

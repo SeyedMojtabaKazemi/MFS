@@ -10,15 +10,15 @@ using System.Threading.Tasks;
 using MFS.Application.Common;
 using MFS.Contract.MerchantAggregate;
 
-namespace MFS.Application.Services.Queries
+namespace MFS.Application.Services.Queries.MerchantAggregate
 {
     public class MerchantServiceQuery : IMerchantServiceQuery
     {
-        private readonly IMFSContext _context;
+        private readonly IRepository<Merchant> _merchantRepository;
 
-        public MerchantServiceQuery(IMFSContext context)
+        public MerchantServiceQuery(IRepository<Merchant> merchantRepository)
         {
-            _context = context;
+            _merchantRepository = merchantRepository;
         }
 
         public List<Merchant> GetMerchantList(MerchantDto merchant)
@@ -61,7 +61,7 @@ namespace MFS.Application.Services.Queries
                 query = ExpressionExtension<Merchant>.AndAlso(query, newCond);
             }
 
-            var lst = _context.Merchants.Include(q => q.MerchantDiscount).Where(query).ToList();
+            var lst = _merchantRepository.GetExpression(query, "MerchantDiscount").ToList();
 
             return lst;
         }

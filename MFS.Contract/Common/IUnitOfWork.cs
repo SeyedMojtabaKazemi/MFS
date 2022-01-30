@@ -10,6 +10,6 @@ namespace MFS.Contract
     public interface IUnitOfWork
     {
         Task SaveChangeAsync(CancellationToken cancellationToken = default);
-        void SaveChange();
+        void SaveChanges();
     }
 }

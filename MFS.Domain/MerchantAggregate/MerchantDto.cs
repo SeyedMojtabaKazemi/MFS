@@ -14,9 +14,6 @@ namespace MFS.Domain.MerchantAggregate
         public string Email { get; set; }
         public string PhoneNo { get; set; }
         public string NationalCode { get; set; }
-        //public DateTime CreateDate { get; set; }
-        //public DateTime ModifyDate { get; set; }
-        //public bool IsDeleted { get; set; }
         public int MerchantDiscount { get; set; }
     }
 }

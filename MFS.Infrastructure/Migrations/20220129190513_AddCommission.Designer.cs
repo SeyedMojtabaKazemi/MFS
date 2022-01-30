@@ -4,14 +4,16 @@ using MFS.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MFS.Infrastructure.Migrations
 {
     [DbContext(typeof(MFSContext))]
-    partial class MFSContextModelSnapshot : ModelSnapshot
+    [Migration("20220129190513_AddCommission")]
+    partial class AddCommission
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

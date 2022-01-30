@@ -36,7 +36,7 @@ namespace MFS.Application.Services.Commands.MerchantAggregate
                 throw new Exception("National Code Is Exists");
 
             _MerchantRepository.Insert(MerchantInfo);
-            _unitOfWork.SaveChange();
+            _unitOfWork.SaveChanges();
 
             return MerchantInfo.Id;
         }
@@ -54,7 +54,7 @@ namespace MFS.Application.Services.Commands.MerchantAggregate
             if (MerchantDiscountEntity != null)
                 _MerchantDiscountRepository.Remove(MerchantDiscountEntity);
 
-            _unitOfWork.SaveChange();
+            _unitOfWork.SaveChanges();
 
         }
 
@@ -68,7 +68,7 @@ namespace MFS.Application.Services.Commands.MerchantAggregate
             var MerchantInfo = MerchantEntity.Update(merchant);
 
             _MerchantRepository.Update(MerchantInfo);
-            _unitOfWork.SaveChange();
+            _unitOfWork.SaveChanges();
         }
     }
 }

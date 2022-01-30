@@ -1,6 +1,7 @@
 ﻿using MFS.Contract;
 using MFS.Domain.Common;
 using MFS.Domain.MerchantAggregate;
+using MFS.Domain.TransactionAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using System;
@@ -20,6 +21,7 @@ namespace MFS.Infrastructure.Persistence
         }
 
         public DbSet<Merchant> Merchants { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -44,6 +46,7 @@ namespace MFS.Infrastructure.Persistence
                 {
                     case EntityState.Added:
                         entry.CurrentValues["CreateDate"] = DateTime.Now;
+                        entry.CurrentValues["IsDeleted"] = false;
                         break;
                     case EntityState.Modified:
                         entry.CurrentValues["ModifyDate"] = DateTime.Now;

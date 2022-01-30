@@ -38,15 +38,16 @@ namespace MFS.Endpoint.WebAPI
 
             services.AddDbContext<MFSContext>(option => option.UseSqlServer(Configuration.GetConnectionString("DatabaseConnection")));
 
-            services.AddServiceRegistry();
+            services.AddServiceRegistry()
+                    .ConfigureAutoMapper();
 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-           // await app.ApplicationServices.EnsureDb();
-            
+            // await app.ApplicationServices.EnsureDb();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

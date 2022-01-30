@@ -4,55 +4,22 @@ using MFS.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MFS.Infrastructure.Migrations
 {
     [DbContext(typeof(MFSContext))]
-    partial class MFSContextModelSnapshot : ModelSnapshot
+    [Migration("20220128174112_AddTransactionEntity")]
+    partial class AddTransactionEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.13")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("MFS.Domain.CommissionAggregate.Commission", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Amount")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("MerchantId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("ModifyDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("PeriodNo")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Year")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MerchantId");
-
-                    b.ToTable("Commission");
-                });
 
             modelBuilder.Entity("MFS.Domain.MerchantAggregate.Merchant", b =>
                 {
@@ -152,17 +119,6 @@ namespace MFS.Infrastructure.Migrations
                     b.ToTable("Transactions");
                 });
 
-            modelBuilder.Entity("MFS.Domain.CommissionAggregate.Commission", b =>
-                {
-                    b.HasOne("MFS.Domain.MerchantAggregate.Merchant", "Merchant")
-                        .WithMany("Commissions")
-                        .HasForeignKey("MerchantId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Merchant");
-                });
-
             modelBuilder.Entity("MFS.Domain.MerchantAggregate.MerchantDiscount", b =>
                 {
                     b.HasOne("MFS.Domain.MerchantAggregate.Merchant", "Merchant")
@@ -187,8 +143,6 @@ namespace MFS.Infrastructure.Migrations
 
             modelBuilder.Entity("MFS.Domain.MerchantAggregate.Merchant", b =>
                 {
-                    b.Navigation("Commissions");
-
                     b.Navigation("MerchantDiscount");
 
                     b.Navigation("Transactions");

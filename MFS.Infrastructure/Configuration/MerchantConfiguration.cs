@@ -41,6 +41,13 @@ namespace MFS.Infrastructure.Configuration
                 .IsRequired();
 
 
+            builder.HasMany(q => q.Transactions)
+                .WithOne(q => q.Merchant)
+                .HasForeignKey(q => q.MerchantId);
+
+            builder.HasMany(q => q.Commissions)
+                .WithOne(q => q.Merchant)
+                .HasForeignKey(q => q.MerchantId);
         }
     }
 }

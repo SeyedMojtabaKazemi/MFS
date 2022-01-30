@@ -1,4 +1,5 @@
 ﻿using MFS.Domain.MerchantAggregate;
+using MFS.Domain.TransactionAggregate;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -11,5 +12,6 @@ namespace MFS.Contract
     public interface IMFSContext
     {
         DbSet<Merchant> Merchants { get; set; }
+        DbSet<Transaction> Transactions { get; set; }
     }
 }

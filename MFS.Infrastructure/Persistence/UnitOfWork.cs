@@ -23,7 +23,7 @@ namespace MFS.Infrastructure.Persistence
             await _context.SaveChangesAsync(cancellationToken);
         }
 
-        public void SaveChange()
+        public void SaveChanges()
         {
             _context.SaveChanges();
         }
