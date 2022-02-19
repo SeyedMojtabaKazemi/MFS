@@ -41,20 +41,20 @@ namespace MFS.Infrastructure.Persistence
             return Entity.Include(IncludeClassName1).Include(IncludeClassName2).Where(expression).ToList();
         }
 
-        public void Insert(T entity)
+        public T Insert(T entity)
         {
-            Entity.Add(entity);
+            return Entity.Add(entity).Entity;
         }
 
-        public void Remove(T entity)
+        public T Remove(T entity)
         {
             entity.IsDeleted = true;
-            Entity.Update(entity);
+            return Entity.Update(entity).Entity;
         }
 
-        public void Update(T entity)
+        public T Update(T entity)
         {
-            Entity.Update(entity);
+            return Entity.Update(entity).Entity;
         }
     }
 }

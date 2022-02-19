@@ -9,6 +9,6 @@ namespace MFS.Contract.CommssionAggregate
 {
     public interface ICommissionServiceCommand
     {
-        int SubmitMerchantCommission(CommissionDto commissionDto);
+        CommissionDto SubmitMerchantCommission(CommissionDto commissionDto);
     }
 }

@@ -1,11 +1,9 @@
-﻿using MFS.Contract;
+﻿using AutoMapper;
+using MFS.Contract;
 using MFS.Contract.TransactionAggregate;
 using MFS.Domain.TransactionAggregate;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MFS.Application.Services.Commands.TransactionAggregate
 {
@@ -14,25 +12,28 @@ namespace MFS.Application.Services.Commands.TransactionAggregate
 
         private readonly IRepository<Transaction> _transactionRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
         public TransactionServiceCommand(IRepository<Transaction> transactionRepository,
-                                         IUnitOfWork unitOfWork)
+                                         IUnitOfWork unitOfWork,
+                                         IMapper mapper)
         {
             _transactionRepository = transactionRepository;
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
-        public int CreateTransaction(TransactionCreateDto transaction)
+        public TransactionDto CreateTransaction(TransactionCreateDto transaction)
         {
             var TransactionEntity = Transaction.Create(transaction);
 
             _transactionRepository.Insert(TransactionEntity);
             _unitOfWork.SaveChanges();
 
-            return TransactionEntity.Id;
+            return _mapper.Map<TransactionDto>(TransactionEntity);
         }
 
-        public void RemoveTransaction(int transactionId)
+        public TransactionDto RemoveTransaction(int transactionId)
         {
             var TransactionEntity = _transactionRepository.GetExpression(q => q.Id == transactionId).FirstOrDefault();
 
@@ -41,6 +42,9 @@ namespace MFS.Application.Services.Commands.TransactionAggregate
 
             _transactionRepository.Remove(TransactionEntity);
             _unitOfWork.SaveChanges();
+
+            return _mapper.Map<TransactionDto>(TransactionEntity);
+
         }
     }
 }

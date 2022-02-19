@@ -10,5 +10,6 @@ namespace MFS.Domain.TransactionAggregate
     {
         public int MerchantId { get; set; }
         public int Price { get; set; }
+        public DayOfWeek? DayOfWeek { get; set; }
     }
 }

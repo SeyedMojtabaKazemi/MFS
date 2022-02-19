@@ -4,8 +4,8 @@ namespace MFS.Contract.MerchantAggregate
 {
     public interface IMerchantServiceCommand
     {
-        int CreateMerchant(MerchantCreateDto merchant);
-        void UpdateMerchant(MerchantDto merchant);
-        void RemoveMerchant(int MerchantId);
+        MerchantDto CreateMerchant(MerchantCreateDto merchant);
+        MerchantDto UpdateMerchant(MerchantDto merchant);
+        MerchantDto RemoveMerchant(int MerchantId);
     }
 }

@@ -1,19 +1,15 @@
+using MFS.Domain.Common;
 using MFS.Endpoint.WebAPI.Extensions;
 using MFS.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MFS.Endpoint.WebAPI
 {
@@ -57,7 +53,19 @@ namespace MFS.Endpoint.WebAPI
 
             app.UseHttpsRedirection();
 
-            app.CustomExcpetionMiddleware();
+            app.UseExceptionHandler(c => c.Run(async context =>
+            {
+                var exception = context.Features
+                    .Get<IExceptionHandlerPathFeature>()
+                    .Error;
+
+                var response = new ErrorDetails(
+                    context.Response.StatusCode,
+                    exception.Message,
+                    context.Request.Path);
+
+                await context.Response.WriteAsJsonAsync(response);
+            }));
 
             app.UseRouting();
 

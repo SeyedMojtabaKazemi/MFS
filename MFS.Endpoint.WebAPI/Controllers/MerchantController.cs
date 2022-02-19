@@ -1,6 +1,4 @@
-﻿using MFS.Application.Services.Commands.MerchantAggregate;
-using MFS.Application.Services.Queries;
-using MFS.Contract;
+﻿using AutoMapper;
 using MFS.Contract.CommssionAggregate;
 using MFS.Contract.MerchantAggregate;
 using MFS.Domain.CommissionAggregate;
@@ -8,83 +6,64 @@ using MFS.Domain.Common;
 using MFS.Domain.MerchantAggregate;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace MFS.Endpoint.WebAPI.Controllers
 {
     [ApiController]
+    [Route("api/[controller]")]
     public class MerchantController : ControllerBase
     {
         private readonly IMerchantServiceCommand _merchantServiceCommand;
         private readonly IMerchantServiceQuery _merchantServiceQuery;
         private readonly ICommissionServiceCommand _commissionServiceCommand;
+        private readonly IMapper _mapper;
+
 
         public MerchantController(IMerchantServiceCommand merchantServiceCommand,
                                   IMerchantServiceQuery merchantServiceQuery,
-                                  ICommissionServiceCommand commissionServiceCommand)
+                                  ICommissionServiceCommand commissionServiceCommand,
+                                  IMapper mapper)
         {
             _merchantServiceCommand = merchantServiceCommand;
             _merchantServiceQuery = merchantServiceQuery;
             _commissionServiceCommand = commissionServiceCommand;
+            _mapper = mapper;
         }
 
-        [HttpPost]
-        [Route("api/CreateMerchant")]
-        public IActionResult CreateMerchant(MerchantCreateDto merchant)
-        {
-            var id = _merchantServiceCommand.CreateMerchant(merchant);
+        [ProducesResponseType(typeof(MerchantDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
+        [HttpPost("Create")]
+        public MerchantDto CreateMerchant(MerchantCreateDto merchant) =>
+            _merchantServiceCommand.CreateMerchant(merchant);
 
-            return Ok(new MessageDto
-            {
-                HasError = false,
-                Message = "Merchant Added Successfully",
-                result = id.ToString()
-            });
-        }
 
-        [HttpPatch]
-        [Route("api/UpdateMerchant")]
-        public IActionResult UpdateMerchant(MerchantDto merchant)
-        {
+        [ProducesResponseType(typeof(MerchantDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
+        [HttpPut]
+        public MerchantDto UpdateMerchant(MerchantDto merchant) =>
             _merchantServiceCommand.UpdateMerchant(merchant);
 
-            return Ok(new MessageDto
-            {
-                HasError = false,
-                Message = "Merchant Updated Successfully"
-            });
-        }
 
-        [HttpGet]
-        [Route("api/RemoveMerchant/{merchantId}")]
-        public IActionResult RemoveMerchant(int merchantId)
-        {
+        [ProducesResponseType(typeof(MerchantDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
+        [HttpDelete("{merchantId}")]
+        public MerchantDto RemoveMerchant(int merchantId) =>
             _merchantServiceCommand.RemoveMerchant(merchantId);
 
-            return Ok(new MessageDto
-            {
-                HasError = false,
-                Message = "Merchant Removed Successfully"
-            });
-        }
 
-        [HttpPost]
-        [Route("api/GetMerchantList")]
-        public IActionResult GetMerchantList(MerchantDto merchant) =>
-            Ok(_merchantServiceQuery.GetMerchantList(merchant));
+        [ProducesResponseType(typeof(MerchantDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
+        [HttpPost("GetList")]
+        public List<MerchantDto> GetMerchantList(MerchantDto merchant) =>
+            _mapper.Map<List<MerchantDto>>(_merchantServiceQuery.GetMerchantList(merchant));
 
 
-        [HttpPost]
-        [Route("api/CalcCommission")]
-        public IActionResult CalculateMerchantCommission(CommissionDto commission)
-        {
+        [ProducesResponseType(typeof(MerchantDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
+        [HttpPost("CalcCommission")]
+        public CommissionDto CalculateMerchantCommission(CommissionDto commission) =>
             _commissionServiceCommand.SubmitMerchantCommission(commission);
-
-            return Ok(new MessageDto
-            {
-                HasError = false,
-                Message = "Commission Calculated sucessfully"
-            });
-        }
 
     }
 }

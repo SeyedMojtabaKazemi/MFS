@@ -1,4 +1,5 @@
-﻿using MFS.Contract;
+﻿using AutoMapper;
+using MFS.Contract;
 using MFS.Contract.MerchantAggregate;
 using MFS.Domain.MerchantAggregate;
 using System;
@@ -16,17 +17,20 @@ namespace MFS.Application.Services.Commands.MerchantAggregate
         private readonly IRepository<Merchant> _MerchantRepository;
         private readonly IRepository<MerchantDiscount> _MerchantDiscountRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
         public MerchantServiceCommand(IRepository<Merchant> MerchantRepository,
                                         IRepository<MerchantDiscount> MerchantDiscountRepository,
-                                        IUnitOfWork unitOfWork)
+                                        IUnitOfWork unitOfWork,
+                                        IMapper mapper)
         {
             _MerchantRepository = MerchantRepository;
             _MerchantDiscountRepository = MerchantDiscountRepository;
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
-        public int CreateMerchant(MerchantCreateDto merchant)
+        public MerchantDto CreateMerchant(MerchantCreateDto merchant)
         {
             var MerchantInfo = Merchant.Create(merchant);
 
@@ -38,10 +42,10 @@ namespace MFS.Application.Services.Commands.MerchantAggregate
             _MerchantRepository.Insert(MerchantInfo);
             _unitOfWork.SaveChanges();
 
-            return MerchantInfo.Id;
+            return _mapper.Map<MerchantDto>(MerchantInfo);
         }
 
-        public void RemoveMerchant(int MerchantId)
+        public MerchantDto RemoveMerchant(int MerchantId)
         {
             var MerchantEntity = _MerchantRepository.GetExpression(q => q.Id == MerchantId).FirstOrDefault();
             var MerchantDiscountEntity = _MerchantDiscountRepository.GetExpression(q => q.MerchantId == MerchantId).FirstOrDefault();
@@ -56,9 +60,11 @@ namespace MFS.Application.Services.Commands.MerchantAggregate
 
             _unitOfWork.SaveChanges();
 
+            return _mapper.Map<MerchantDto>(MerchantEntity);
+
         }
 
-        public void UpdateMerchant(MerchantDto merchant)
+        public MerchantDto UpdateMerchant(MerchantDto merchant)
         {
             var MerchantEntity = _MerchantRepository.GetExpression(q => q.Id == merchant.Id, "MerchantDiscount").FirstOrDefault();
 
@@ -69,6 +75,9 @@ namespace MFS.Application.Services.Commands.MerchantAggregate
 
             _MerchantRepository.Update(MerchantInfo);
             _unitOfWork.SaveChanges();
+
+            return _mapper.Map<MerchantDto>(MerchantInfo);
+
         }
     }
 }

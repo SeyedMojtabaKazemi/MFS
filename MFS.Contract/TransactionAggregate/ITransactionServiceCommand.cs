@@ -9,8 +9,8 @@ namespace MFS.Contract.TransactionAggregate
 {
     public interface ITransactionServiceCommand
     {
-        int CreateTransaction(TransactionCreateDto transaction);
-        void RemoveTransaction(int transactionId);
+        TransactionDto CreateTransaction(TransactionCreateDto transaction);
+        TransactionDto RemoveTransaction(int transactionId);
 
     }
 }

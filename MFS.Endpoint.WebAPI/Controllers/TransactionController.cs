@@ -4,14 +4,12 @@ using MFS.Domain.Common;
 using MFS.Domain.TransactionAggregate;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MFS.Endpoint.WebAPI.Controllers
 {
     [ApiController]
+    [Route("api/[controller]")]
     public class TransactionController : ControllerBase
     {
         private readonly IMapper _mapper;
@@ -27,37 +25,25 @@ namespace MFS.Endpoint.WebAPI.Controllers
             _transactionServiceQuery = transactionServiceQuery;
         }
 
-        [HttpPost]
-        [Route("/api/GetTransactionList")]
-        public IActionResult GetTransaction(TransactionSearchDto searchDto) =>
-            Ok(_mapper.Map<List<TransactionDto>>(_transactionServiceQuery.GetTransactionList(searchDto)));
+        [ProducesResponseType(typeof(TransactionDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
+        [HttpPost("GetList")]
+        public List<TransactionDto> GetTransaction(TransactionSearchDto searchDto) =>
+            _mapper.Map<List<TransactionDto>>(_transactionServiceQuery.GetTransactionList(searchDto));
 
 
-        [HttpPost]
-        [Route("/api/CreateTransaction")]
-        public IActionResult CreateTransaction(TransactionCreateDto createDto)
-        {
-            int id = _transactionServiceCommand.CreateTransaction(createDto);
+        [ProducesResponseType(typeof(TransactionDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
+        [HttpPost("Create")]
+        public TransactionDto CreateTransaction(TransactionCreateDto createDto) =>
+             _transactionServiceCommand.CreateTransaction(createDto);
 
-            return Ok(new MessageDto
-            {
-                HasError = false,
-                Message = "Transaction Added Successfully",
-                result = id.ToString()
-            });
-        }
 
-        [HttpGet]
-        [Route("/api/RemoveTransaction/{transactionId}")]
-        public IActionResult RemoveTransaction(int transactionId)
-        {
+        [ProducesResponseType(typeof(TransactionDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
+        [HttpDelete("{transactionId}")]
+        public TransactionDto RemoveTransaction(int transactionId) =>
             _transactionServiceCommand.RemoveTransaction(transactionId);
 
-            return Ok(new MessageDto
-            {
-                HasError = false,
-                Message = "Transaction Removed Successfully"
-            });
-        }
     }
 }

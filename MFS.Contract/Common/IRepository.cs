@@ -14,8 +14,8 @@ namespace MFS.Contract
         IEnumerable<T> GetExpression(Expression<Func<T, bool>> expression);
         IEnumerable<T> GetExpression(Expression<Func<T, bool>> expression, string IncludeClassName);
         IEnumerable<T> GetExpression(Expression<Func<T, bool>> expression, string IncludeClassName1, string IncludeClassName2);
-        void Insert(T entity);
-        void Update(T entity);
-        void Remove(T entity);
+        T Insert(T entity);
+        T Update(T entity);
+        T Remove(T entity);
     }
 }

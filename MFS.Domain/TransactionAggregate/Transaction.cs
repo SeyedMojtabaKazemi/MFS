@@ -18,7 +18,7 @@ namespace MFS.Domain.TransactionAggregate
 
         public static Transaction Create(TransactionCreateDto createDto) => new()
         {
-            DayOfWeek = DateTime.Now.DayOfWeek,
+            DayOfWeek = createDto.DayOfWeek ?? DateTime.Now.DayOfWeek,
             MerchantId = createDto.MerchantId,
             Price = createDto.Price
         };

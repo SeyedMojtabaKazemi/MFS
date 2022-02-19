@@ -35,8 +35,9 @@ namespace MFS.Domain.MerchantAggregate
         };
 
 
-        public Merchant Update(MerchantDto merchant)
+        public Merchant Update(MerchantDto merchant) 
         {
+            Id = merchant.Id;
             FirstName = merchant.FirstName;
             LastName = merchant.LastName;
             Email = merchant.Email;
