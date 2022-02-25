@@ -59,6 +59,12 @@ namespace MFS.xUnitTest.Initialize
                 Price = 500
             }));
 
+            MerchantB.Transactions.Add(Transaction.Create(new TransactionCreateDto
+            {
+                DayOfWeek = DateTime.Now.DayOfWeek,
+                Price = 700
+            }));
+
             var MerchantC = Merchant.Create(new MerchantCreateDto
             {
                 FirstName = "Amir",
