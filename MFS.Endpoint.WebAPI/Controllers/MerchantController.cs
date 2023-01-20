@@ -61,6 +61,13 @@ namespace MFS.Endpoint.WebAPI.Controllers
 
         [ProducesResponseType(typeof(MerchantDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
+        [HttpGet("GetAll")]
+        public List<MerchantDto> GetAllMerchantList() =>
+            _mapper.Map<List<MerchantDto>>(_merchantServiceQuery.GetAllMerchantList());
+
+
+        [ProducesResponseType(typeof(MerchantDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
         [HttpPost("CalcCommission")]
         public CommissionDto CalculateMerchantCommission(CommissionDto commission) =>
             _commissionServiceCommand.SubmitMerchantCommission(commission);

@@ -21,6 +21,11 @@ namespace MFS.Application.Services.Queries.MerchantAggregate
             _merchantRepository = merchantRepository;
         }
 
+        public List<Merchant> GetAllMerchantList()
+        {
+            return _merchantRepository.GetAll().ToList();
+        }
+
         public List<Merchant> GetMerchantList(MerchantDto merchant)
         {
             Expression<Func<Merchant, bool>> query = q => true;

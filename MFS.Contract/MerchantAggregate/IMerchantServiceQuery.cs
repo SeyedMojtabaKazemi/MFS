@@ -10,5 +10,6 @@ namespace MFS.Contract.MerchantAggregate
     public interface IMerchantServiceQuery
     {
         List<Merchant> GetMerchantList(MerchantDto merchant);
+        List<Merchant> GetAllMerchantList();
     }
 }
